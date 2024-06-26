@@ -1,0 +1,35 @@
+
+<!doctype html>
+<html>
+  <head>
+    <title>Map</title>
+
+    <!-- TODO: Add bootstrap script tag. -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztlvY4RHQMezEoJthjWGVUvr_PUJ_ZWc&loading=async&libraries=maps,marker&v=beta" defer>
+    </script>
+  </head>
+  <body>
+    <h1>Map</h1>
+    <!-- TODO: Add a map with markers. -->
+    <gmp-map
+        center="40.737788195850996,-74.17235423956"
+        zoom="16"
+        map-id="DEMO_MAP_ID"
+        style="height: 400px"
+        >
+        <gmp-advanced-marker
+            position="40.73935,-74.17097"
+            title="Prudential Tower"
+        ></gmp-advanced-marker>
+        <gmp-advanced-marker
+            position="40.73778,-74.17429"
+            title="Prudential Insurance Company of America - Washington Building"
+        ></gmp-advanced-marker>
+        <gmp-advanced-marker
+            position="40.73680,-74.17167"
+            title="Prudential Headquarters - Plaza Building"
+        ></gmp-advanced-marker>
+    </gmp-map>
+  </body>
+</html>

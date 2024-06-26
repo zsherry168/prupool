@@ -17,6 +17,12 @@
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/contact">Contact</a></li>
+            {% if 'user' in session %}
+                <li><a href="/account">Account</a></li>
+                <li><a href="/logout">Logout</a></li>
+            {% else %}
+                <li><a href="/signup">Sign Up</a></li>
+            {% endif %}
         </ul>
     </nav>
 
