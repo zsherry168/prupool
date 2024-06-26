@@ -77,8 +77,8 @@ body, html {
 
 #profile-picture-container {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 5px;
+    right: 60px;
     z-index: 1001;
 }
 
