@@ -2,6 +2,8 @@
     font-family: 'Inter';
 } */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
 .header {
     background: #D3EFFC;
     display: flex;
@@ -18,7 +20,8 @@
 .header-text {
     align-self: center;
     padding-left: 2%;
-    width: 90%
+    width: 90%;
+    font-family: "Inter";
 }
 
 .header-text h1 {
@@ -54,6 +57,7 @@
     background: #D3EFFC;
     margin-left: 1%;
     width: 45%;
+    font-family: "Inter";
 }
 
 .carpool-container h1 {
@@ -70,8 +74,9 @@
 }
 
 .carpool-info img {
-    height: 90%;
+    height: 95%;
     padding-left: 4%;
+    padding-top: 0%;
 }
 
 .carpool-text {
@@ -80,14 +85,15 @@
 }
 
 .carpool-text p {
-    margin-top: 1%;
+    margin-top: 0.5%;
 }
 
 .history-container {
     background: #D3EFFC;
     margin-left: 1%;
     width: 45%;
-    height: 130%;
+    height: 150%;
+    font-family: "Inter";
 }
 
 .history-container h1 {
@@ -114,10 +120,11 @@
     padding-left: 2%;
     align-self: center;
     margin-top: 1%;
+    padding-right: 2%;
 }
 
 .history-text p {
-    margin-top: 1%;
+    margin-top: 0%;
 }
 /* .carpoo */
 /* .header-text ul li {
