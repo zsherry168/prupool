@@ -26,24 +26,27 @@
 
 .header-text h1 {
     margin-bottom: 1%;
-    margin-top: 1%
+    margin-top: 1%;
+    padding-left: 2%;
 }
 
 .header-text p {
     margin-top: 1%;
+    font-weight: 500;
+    padding-left: 2%;
 }
 
 .header-text ul {
+    width: 60%;
     list-style: none;
-    margin: 0;
+    display: flex;    
+    justify-content: space-around;
     padding: 0;
-    /* overflow: hidden; */
+    margin: 0;
 }
 
-.header-text li {
-    display: inline-block;
-    padding-right: 10%;
-}
+/* .header-text li {
+} */
 
 .container-box {
     display: flex;
