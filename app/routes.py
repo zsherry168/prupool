@@ -63,7 +63,8 @@ def google_callback():
         session['user'] = {
             'name': user.display_name,
             'email': user.email,
-            'uid': user.uid
+            'uid': user.uid,
+            'picture': id_info.get('picture')  # Add profile picture
         }
         flash('Signed in successfully!', 'success')
         return redirect(url_for('account'))

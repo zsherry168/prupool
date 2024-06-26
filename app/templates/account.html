@@ -9,10 +9,14 @@
 <body>
     <header>
         <h1>Account Details</h1>
+        <div class="breadcrumb">
+            <a href="{{ url_for('home') }}">Home</a> > Account
+        </div>
     </header>
     <main>
         <section>
             <h2>Welcome, {{ user['name'] }}</h2>
+            <img src="{{ user['picture'] }}" alt="Profile Picture" class="profile-picture">
             <p>Email: {{ user['email'] }}</p>
             <p>UID: {{ user['uid'] }}</p>
         </section>
