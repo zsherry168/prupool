@@ -15,7 +15,7 @@ GOOGLE_CLIENT_SECRET = app.config['GOOGLE_CLIENT_SECRET']
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('landing.html')
 
 @app.route('/chat')
 def chat():
