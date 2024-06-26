@@ -1,5 +1,4 @@
 Flask
-Flask-PyMongo
-SQLAlchemy
-pymongo[srv]
-geopy
+requests
+firebase-admin
+oauthlib
