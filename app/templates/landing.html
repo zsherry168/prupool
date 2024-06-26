@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+</head>
+<body>
+    <div id="sidebar">
+        <div id="logo">
+            <img src="../assets/logo.png" alt="Logo">
+        </div>
+        <div class="sidebar-icon" id="chat-icon">
+            <img src="https://icons.veryicon.com/png/o/miscellaneous/forestry-in-yiliang/icon-chat.png" alt="Chat">
+        </div>
+        <div class="sidebar-icon" id="leaderboard-icon">
+            <img src="https://www.svgrepo.com/show/487506/leaderboard.svg" alt="Leaderboard">
+        </div>
+    </div>
+    <div id="map-container">
+        <div id="search-bar-container">
+            <input type="text" id="search-bar" placeholder="Find carpool buddies nearby">
+            <div id="dropdown" class="dropdown-content"></div>
+            <div id="popup" class="popup-content">
+                <div id="buddy-list"></div>
+            </div>
+        </div>
+        <img src="https://media.wired.com/photos/59269cd37034dc5f91bec0f1/191:100/w_1280,c_limit/GoogleMapTA.jpg" alt="Map" id="map-image">
+    </div>
+    <div id="profile-picture-container">
+        <img src="https://news.prudential.com/files/images/executive/high_res/LowreyCharles_Bio.jpg" alt="Profile Picture" id="profile-picture">
+    </div>
+    <script src="{{ url_for('static', filename='css/landing.js') }}"></script>
+</body>
+</html>

@@ -205,3 +205,11 @@ def calculate_distance_route():
     except Exception as e:
         flash(f'An error occurred: {e}', 'danger')
         return redirect(url_for('distance'))
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
+@app.route('/other-profile')
+def other_profile():
+    return render_template('other-profile.html')
