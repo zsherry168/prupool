@@ -8,6 +8,7 @@ import google.oauth2.id_token
 import os
 import requests
 import json
+from distance_calculator import calculate_distance
 
 GOOGLE_CLIENT_ID = app.config['GOOGLE_CLIENT_ID']
 GOOGLE_CLIENT_SECRET = app.config['GOOGLE_CLIENT_SECRET']
@@ -80,7 +81,9 @@ def google_callback():
                     'days_going_to_work': [],
                     'driving_to': None,
                     'type_of_car': None,
-                    'seats_in_car': None
+                    'seats_in_car': None,
+                    'work_building': None,
+                    'home_address': None
                 },
                 'points': 0  # Initialize points to 0
             })
@@ -149,7 +152,9 @@ def update_preferences():
         'days_going_to_work': days_going_to_work,
         'driving_to': request.form.get('driving_to'),
         'type_of_car': request.form.get('type_of_car'),
-        'seats_in_car': request.form.get('seats_in_car')
+        'seats_in_car': request.form.get('seats_in_car'),
+        'work_building': request.form.get('work_building'),
+        'home_address': request.form.get('home_address')
     }
     
     try:
@@ -158,7 +163,7 @@ def update_preferences():
         custom_claims = user.custom_claims or {}
         
         # Update preferences but keep points unchanged
-        custom_claims['preferences'] = preferences
+        custom_claims['preferences'] = {**custom_claims.get('preferences', {}), **preferences}
         
         auth.set_custom_user_claims(user_id, custom_claims)
         flash('Preferences updated successfully!', 'success')
@@ -166,3 +171,52 @@ def update_preferences():
         flash(f'An error occurred: {e}', 'danger')
     
     return redirect(url_for('account'))
+
+@app.route('/distance')
+def distance():
+    if 'user' not in session:
+        flash('You need to sign in first', 'danger')
+        return redirect(url_for('signup'))
+
+    user_id = session['user']['uid']
+    user = auth.get_user(user_id)
+    preferences = user.custom_claims.get('preferences', {})
+    
+    return render_template('distance.html', preferences=preferences)
+
+@app.route('/calculate_distance', methods=['POST'])
+def calculate_distance_route():
+    if 'user' not in session:
+        flash('You need to sign in first', 'danger')
+        return redirect(url_for('signup'))
+
+    home_address = request.form.get('home_address')
+    work_building = request.form.get('work_building')
+
+    # Map work building to its address
+    work_building_addresses = {
+        'tower': 'Prudential Tower, Newark, NJ',
+        'wash': 'Prudential Insurance Company of America - Washington Building, Newark, NJ',
+        'plaza': 'Prudential Headquarters - Plaza Building, Newark, NJ'
+    }
+
+    work_building_address = work_building_addresses.get(work_building)
+
+    if not home_address or not work_building_address:
+        flash('Invalid addresses provided', 'danger')
+        return redirect(url_for('distance'))
+
+    try:
+        distance, duration = calculate_distance(home_address, work_building_address)
+        return render_template('distance.html', distance=distance, duration=duration, preferences={'home_address': home_address, 'work_building': work_building})
+    except Exception as e:
+        flash(f'An error occurred: {e}', 'danger')
+        return redirect(url_for('distance'))
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
+@app.route('/other-profile')
+def other_profile():
+    return render_template('other-profile.html')

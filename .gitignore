@@ -81,3 +81,4 @@ celerybeat-schedule
 env/
 venv/
 ENV/credentials.json
+firebase_credentials.json

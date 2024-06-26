@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate Distance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Calculate Distance</h1>
+        <div class="breadcrumb">
+            <a href="{{ url_for('home') }}">Home</a> > Calculate Distance
+        </div>
+    </header>
+    <main>
+        <section>
+            <form action="{{ url_for('calculate_distance_route') }}" method="POST">
+                <label for="home_address">Home Address:</label>
+                <input type="text" id="home_address" name="home_address" value="{{ preferences.get('home_address', '') }}" readonly>
+                
+                <label for="work_building">Work Building:</label>
+                <select id="work_building" name="work_building">
+                    <option value="tower" {% if preferences.get('work_building') == 'tower' %}selected{% endif %}>Tower</option>
+                    <option value="wash" {% if preferences.get('work_building') == 'wash' %}selected{% endif %}>Wash</option>
+                    <option value="plaza" {% if preferences.get('work_building') == 'plaza' %}selected{% endif %}>Plaza</option>
+                </select>
+                
+                <button type="submit">Calculate Distance</button>
+            </form>
+
+            {% if distance and duration %}
+            <div>
+                <p>Distance: {{ distance }}</p>
+                <p>Duration: {{ duration }}</p>
+            </div>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>
