@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="sidebar">
+            <input type="text" class="search" placeholder="Search">
+            <div class="contacts">
+                <div class="contact selected">
+                    <img src="https://media.licdn.com/dms/image/D4E03AQEssFOYMSEG2Q/profile-displayphoto-shrink_200_200/0/1686139243145?e=2147483647&v=beta&t=Eajua11KOCvcXUHQx6kca6ChFqOvLEKZcUa0pSsYDQs" alt="Darshana Rao">
+                    <span>Darshana Rao</span>
+                </div>
+                <div class="contact">
+                    <img src="https://mms.businesswire.com/media/20190520005398/en/722304/5/Goodman%2C_Stacey.jpg" alt="Stacy Goodman">
+                    <span>Stacy Goodman</span>
+                </div>
+                <div class="contact">
+                    <img src="https://assets.boardroominsiders.com/attachments/images/crop/0/0/200/200/eyJpZCI6IjQ3MTY0ZGNjZDU5OWFhMjRmZWZhNzhiNDA1ODk5ZmUxLmpwZyIsInN0b3JhZ2UiOiJzdG9yZSJ9?signature=4ade3b179aed25121ffb91bb83dceb182800ed02d6704802a254b550596794d8" alt="RJ Sala">
+                    <span>RJ Sala</span>
+                </div>
+                <div class="contact">
+                    <img src="https://news.prudential.com/files/images/executive/Lata-Reddy.jpg" alt="Lata N. Reddy">
+                    <span>Lata N. Reddy</span>
+                </div>
+                <div class="contact">
+                    <img src="https://news.prudential.com/files/images/executive/salene_hitchcock_gear-2024_high_res-1.jpg" alt="Salene Hitchcock-Gear">
+                    <span>Salene Hitchcock-Gear</span>
+                </div>
+                <div class="contact">
+                    <img src="https://media.licdn.com/dms/image/C4D03AQFEOfiIUFKT5A/profile-displayphoto-shrink_200_200/0/1600897863632?e=2147483647&v=beta&t=ZQzCIEn88hMZ3alfO_tyEgCrZxyL0FpV6c_kToAEmfE" alt="Ann Kappler">
+                    <span>Ann Kappler</span>
+                </div>
+            </div>
+        </div>
+        <div class="chat-box">
+            <div class="chat-header">
+                <img src="https://media.licdn.com/dms/image/D4E03AQEssFOYMSEG2Q/profile-displayphoto-shrink_200_200/0/1686139243145?e=2147483647&v=beta&t=Eajua11KOCvcXUHQx6kca6ChFqOvLEKZcUa0pSsYDQs" alt="Darshana Rao">
+                <span>Chat with Darshana Rao</span>
+            </div>
+            <div class="chat-messages">
+                <div class="message received">
+                  <img src="https://media.licdn.com/dms/image/D4E03AQEssFOYMSEG2Q/profile-displayphoto-shrink_200_200/0/1686139243145?e=2147483647&v=beta&t=Eajua11KOCvcXUHQx6kca6ChFqOvLEKZcUa0pSsYDQs" alt="Darshana Rao"> 
+                    <p>Hey, want to go to work together on Tuesday?</p>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="message-input" placeholder="Enter text here...">
+                <button id="send-button">Send</button>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='css/chat.js') }}"></script>
+</body>
+</html>

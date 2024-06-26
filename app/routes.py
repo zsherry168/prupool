@@ -16,6 +16,10 @@ GOOGLE_CLIENT_SECRET = app.config['GOOGLE_CLIENT_SECRET']
 def home():
     return render_template('index.html')
 
+@app.route('/chat')
+def chat():
+    return render_template('chat.html')
+  
 @app.route('/google_signin')
 def google_signin():
     return redirect(f"https://accounts.google.com/o/oauth2/auth?client_id={GOOGLE_CLIENT_ID}&redirect_uri={url_for('google_callback', _external=True)}&scope=openid%20email%20profile&response_type=code")
