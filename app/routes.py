@@ -58,13 +58,13 @@ def google_callback():
         try:
             user = auth.get_user(userid)
         except auth.UserNotFoundError:
-            # Create a new user in Firebase with default preferences
+            # Create a new user in Firebase with default preferences and points
             user = auth.create_user(
                 uid=userid,
                 email=id_info.get('email'),
                 display_name=id_info.get('name')
             )
-            # Set default preferences
+            # Set default preferences and points
             auth.set_custom_user_claims(user.uid, {
                 'preferences': {
                     'age': None,
@@ -74,14 +74,16 @@ def google_callback():
                     'driving_to': None,
                     'type_of_car': None,
                     'seats_in_car': None
-                }
+                },
+                'points': 0  # Initialize points to 0
             })
         
         session['user'] = {
             'name': user.display_name,
             'email': user.email,
             'uid': user.uid,
-            'picture': id_info.get('picture')  # Add profile picture
+            'picture': id_info.get('picture'),  # Add profile picture
+            'points': user.custom_claims.get('points', 0)  # Add points to session
         }
         flash('Signed in successfully!', 'success')
         return redirect(url_for('account'))
@@ -101,8 +103,9 @@ def account():
     user_id = session['user']['uid']
     user = auth.get_user(user_id)
     preferences = user.custom_claims.get('preferences', {})
+    points = user.custom_claims.get('points', 0)  # Ensure points are retrieved
     
-    return render_template('account.html', user=session['user'], preferences=preferences)
+    return render_template('account.html', user=session['user'], preferences=preferences, points=points)
 
 @app.route('/signup')
 def signup():
@@ -143,8 +146,14 @@ def update_preferences():
     }
     
     try:
-        # Update user preferences in Firebase
-        auth.set_custom_user_claims(user_id, {'preferences': preferences})
+        # Get current custom claims
+        user = auth.get_user(user_id)
+        custom_claims = user.custom_claims or {}
+        
+        # Update preferences but keep points unchanged
+        custom_claims['preferences'] = preferences
+        
+        auth.set_custom_user_claims(user_id, custom_claims)
         flash('Preferences updated successfully!', 'success')
     except Exception as e:
         flash(f'An error occurred: {e}', 'danger')
