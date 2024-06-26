@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Preferences</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/preference.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-stripe"></div>
+            <div class="header-content">
+                <h1>Welcome back, Charles.</h1>
+                <img src="https://news.prudential.com/files/images/executive/Charles-Lowrey.jpg" alt="Profile Picture" class="profile-pic">
+            </div>
+        </div>
+        <div class="section">
+            <h2>Personal Information</h2>
+            <div class="input-group">
+                <label for="preferred-name">Preferred Name</label>
+                <input type="text" id="preferred-name" name="preferred-name">
+            </div>
+            <div class="input-group">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" name="last-name">
+            </div>
+            <div class="input-group">
+                <label for="pronouns">Pronouns</label>
+                <input type="text" id="pronouns" name="pronouns">
+            </div>
+            <div class="input-group">
+                <label for="role">Role</label>
+                <input type="text" id="role" name="role">
+            </div>
+        </div>
+        <div class="section">
+            <h2>Account Management</h2>
+            <div class="input-group">
+                <label>What days do you head into work?</label>
+                <div class="days">
+                    <button class="day-btn">M</button>
+                    <button class="day-btn">T</button>
+                    <button class="day-btn">W</button>
+                    <button class="day-btn">Th</button>
+                    <button class="day-btn">F</button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>What kind of fuel does your car use?</label>
+                <div class="fuel">
+                    <button class="fuel-btn">Hybrid</button>
+                    <button class="fuel-btn">Diesel</button>
+                    <button class="fuel-btn">Electric</button>
+                    <button class="fuel-btn">Other</button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>How many seats are available?</label>
+                <div class="seats">
+                    <button class="seat-btn">1</button>
+                    <button class="seat-btn">2</button>
+                    <button class="seat-btn">3</button>
+                    <button class="seat-btn">4+</button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>What time do you usually travel to work?</label>
+                <select id="travel-time">
+                    <option value="6:00 am">6:00 am</option>
+                    <option value="6:30 am">6:30 am</option>
+                    <option value="7:00 am">7:00 am</option>
+                    <option value="7:30 am">7:30 am</option>
+                    <option value="8:00 am">8:00 am</option>
+                    <option value="8:30 am">8:30 am</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>What time do you usually leave work?</label>
+                <select id="leave-time">
+                    <option value="5:00 pm">5:00 pm</option>
+                    <option value="5:30 pm">5:30 pm</option>
+                    <option value="6:00 pm">6:00 pm</option>
+                    <option value="6:30 pm">6:30 pm</option>
+                    <option value="7:00 pm">7:00 pm</option>
+                    <option value="7:30 pm">7:30 pm</option>
+                    <option value="8:00 pm">8:00 pm</option>
+                </select>
+            </div>
+            <div class="button changes">
+                <button type="submit" class="save-button">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
