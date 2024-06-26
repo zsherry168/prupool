@@ -2,4 +2,4 @@ Flask
 Flask-PyMongo
 SQLAlchemy
 pymongo[srv]
-requests
+geopy
