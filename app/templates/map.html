@@ -40,14 +40,24 @@
         height: 70px;
         border-radius: 50%;
       }
+      .button {
+        background: none;
+        border: none
+      }
   </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position: sticky">
       <div class="container-fluid">
-        <img class="icon" src="../images/logo.png"/>
-        <img class="icon" src="../images/chat.png"/>
-        <img class="icon" src="../images/bar.png"/>
+        <button class="button">
+          <img class="icon" src="../images/logo.png"/>
+        </button>
+        <button class="button">
+          <img class="icon" src="../images/chat.png"/>
+        </button>
+        <button class="button">
+          <img class="icon" src="../images/bar.png"/>
+        </button>
         <div class="search-container" style="margin-left: 20px; margin-right: 20px;">
           <form action="/search" method="get">
               <input type="text" placeholder="Find carpool buddy nearby" name="search" class="search-input">
@@ -61,7 +71,11 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           </ul>
         </div>
-        <img class="profile" src="https://news.prudential.com/files/images/executive/Charles-Lowrey.jpg"/>
+        <button class="button">
+          <a>
+            <img class="profile" src="https://news.prudential.com/files/images/executive/Charles-Lowrey.jpg"/>
+          </a>
+        </button>
       </div>
     </nav>
     <!-- Add a map with markers -->
