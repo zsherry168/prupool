@@ -73,7 +73,9 @@ def google_callback():
                     'days_going_to_work': [],
                     'driving_to': None,
                     'type_of_car': None,
-                    'seats_in_car': None
+                    'seats_in_car': None,
+                    'work_building': None,
+                    'home_address': None
                 },
                 'points': 0  # Initialize points to 0
             })
@@ -142,7 +144,9 @@ def update_preferences():
         'days_going_to_work': days_going_to_work,
         'driving_to': request.form.get('driving_to'),
         'type_of_car': request.form.get('type_of_car'),
-        'seats_in_car': request.form.get('seats_in_car')
+        'seats_in_car': request.form.get('seats_in_car'),
+        'work_building': request.form.get('work_building'),
+        'home_address': request.form.get('home_address')
     }
     
     try:
@@ -151,7 +155,7 @@ def update_preferences():
         custom_claims = user.custom_claims or {}
         
         # Update preferences but keep points unchanged
-        custom_claims['preferences'] = preferences
+        custom_claims['preferences'] = {**custom_claims.get('preferences', {}), **preferences}
         
         auth.set_custom_user_claims(user_id, custom_claims)
         flash('Preferences updated successfully!', 'success')
