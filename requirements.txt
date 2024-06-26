@@ -2,4 +2,4 @@ Flask
 requests
 firebase-admin
 oauthlib
-dotenv
+python-dotenv
