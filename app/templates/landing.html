@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDztlvY4RHQMezEoJthjWGVUvr_PUJ_ZWc&loading=async&libraries=maps,marker&v=beta" defer>
+    </script>
 </head>
 <body>
     <div id="sidebar">
@@ -19,14 +22,33 @@
         </div>
     </div>
     <div id="map-container">
-        <div id="search-bar-container">
+        <div id="search-bar-container" style="margin-bottom: 50px;">
             <input type="text" id="search-bar" placeholder="Find carpool buddies nearby">
             <div id="dropdown" class="dropdown-content"></div>
             <div id="popup" class="popup-content">
                 <div id="buddy-list"></div>
             </div>
         </div>
-        <img src="https://media.wired.com/photos/59269cd37034dc5f91bec0f1/191:100/w_1280,c_limit/GoogleMapTA.jpg" alt="Map" id="map-image">
+        <!-- Interactive Google Map -->
+        <gmp-map
+            center="40.737788195850996,-74.17235423956"
+            zoom="16"
+            map-id="DEMO_MAP_ID"
+            style="height: 1000px"
+        >
+        <gmp-advanced-marker
+                position="40.73935,-74.17097"
+                title="Prudential Tower"
+            ></gmp-advanced-marker>
+            <gmp-advanced-marker
+                position="40.73778,-74.17429"
+                title="Prudential Insurance Company of America - Washington Building"
+            ></gmp-advanced-marker>
+            <gmp-advanced-marker
+                position="40.73680,-74.17167"
+                title="Prudential Headquarters - Plaza Building"
+            ></gmp-advanced-marker>
+        </gmp-map>
     </div>
     <div id="profile-picture-container">
         <img src="https://news.prudential.com/files/images/executive/high_res/LowreyCharles_Bio.jpg" alt="Profile Picture" id="profile-picture">

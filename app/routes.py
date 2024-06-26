@@ -20,6 +20,9 @@ def home():
 def chat():
     return render_template('chat.html')
 
+@app.route('/landing')
+def landing():
+    return render_template('landing.html')
 @app.route('/map')
 def map():
     return render_template('map.html')
