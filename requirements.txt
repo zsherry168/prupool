@@ -1,5 +1,5 @@
 Flask
-Flask-PyMongo
-SQLAlchemy
-pymongo[srv]
 requests
+firebase-admin
+oauthlib
+dotenv
