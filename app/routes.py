@@ -8,6 +8,7 @@ import google.oauth2.id_token
 import os
 import requests
 import json
+from distance_calculator import calculate_distance
 
 GOOGLE_CLIENT_ID = app.config['GOOGLE_CLIENT_ID']
 GOOGLE_CLIENT_SECRET = app.config['GOOGLE_CLIENT_SECRET']
@@ -163,3 +164,44 @@ def update_preferences():
         flash(f'An error occurred: {e}', 'danger')
     
     return redirect(url_for('account'))
+
+@app.route('/distance')
+def distance():
+    if 'user' not in session:
+        flash('You need to sign in first', 'danger')
+        return redirect(url_for('signup'))
+
+    user_id = session['user']['uid']
+    user = auth.get_user(user_id)
+    preferences = user.custom_claims.get('preferences', {})
+    
+    return render_template('distance.html', preferences=preferences)
+
+@app.route('/calculate_distance', methods=['POST'])
+def calculate_distance_route():
+    if 'user' not in session:
+        flash('You need to sign in first', 'danger')
+        return redirect(url_for('signup'))
+
+    home_address = request.form.get('home_address')
+    work_building = request.form.get('work_building')
+
+    # Map work building to its address
+    work_building_addresses = {
+        'tower': 'Prudential Tower, Newark, NJ',
+        'wash': 'Prudential Insurance Company of America - Washington Building, Newark, NJ',
+        'plaza': 'Prudential Headquarters - Plaza Building, Newark, NJ'
+    }
+
+    work_building_address = work_building_addresses.get(work_building)
+
+    if not home_address or not work_building_address:
+        flash('Invalid addresses provided', 'danger')
+        return redirect(url_for('distance'))
+
+    try:
+        distance, duration = calculate_distance(home_address, work_building_address)
+        return render_template('distance.html', distance=distance, duration=duration, preferences={'home_address': home_address, 'work_building': work_building})
+    except Exception as e:
+        flash(f'An error occurred: {e}', 'danger')
+        return redirect(url_for('distance'))

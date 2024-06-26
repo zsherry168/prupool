@@ -3,3 +3,4 @@ requests
 firebase-admin
 oauthlib
 python-dotenv
+googlemaps
