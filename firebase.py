@@ -9,3 +9,4 @@ with open(os.getenv('GOOGLE_APPLICATION_CREDENTIALS'), 'r') as f:
 
 cred = credentials.Certificate(cred_dict)
 firebase_admin.initialize_app(cred)
+
