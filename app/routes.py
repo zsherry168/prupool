@@ -163,3 +163,12 @@ def update_preferences():
         flash(f'An error occurred: {e}', 'danger')
     
     return redirect(url_for('account'))
+
+
+@app.route('/profile')
+def profile():
+    return render_template('profile.html')
+
+@app.route('/other-profile')
+def other_profile():
+    return render_template('other-profile.html')
