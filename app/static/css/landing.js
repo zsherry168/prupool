@@ -3,11 +3,11 @@ const carpoolBuddies = {
         { name: "Lata N. Reddy", distance: "0.5 miles away" },
         { name: "Ann Kappler", distance: "0.7 miles away" },
     ],
-    "Prudential Insurance Company of America - Washington Building": [
+    "Washington Building": [
         { name: "Darshana Rao", distance: "0.3 miles away" },
         { name: "RJ Sala", distance: "0.8 miles away" },
     ],
-    "Prudential Headquarters - Plaza Building": [
+    "Plaza Building": [
         { name: "Stacy Goodman", distance: "0.4 miles away" },
         { name: "Frank Miller", distance: "0.6 miles away" },
     ]

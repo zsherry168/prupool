@@ -14,21 +14,14 @@
         <div id="logo">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
         </div>
-        <div class="sidebar-icon" id="chat-icon">
+        <a href="{{ url_for('chat') }}" class="sidebar-icon" id="chat-icon">
             <img src="https://icons.veryicon.com/png/o/miscellaneous/forestry-in-yiliang/icon-chat.png" alt="Chat">
-        </div>
+        </a>
         <div class="sidebar-icon" id="leaderboard-icon">
             <img src="https://www.svgrepo.com/show/487506/leaderboard.svg" alt="Leaderboard">
         </div>
     </div>
     <div id="map-container">
-        <div id="search-bar-container" style="margin-bottom: 50px;">
-            <input type="text" id="search-bar" placeholder="Find carpool buddies nearby">
-            <div id="dropdown" class="dropdown-content"></div>
-            <div id="popup" class="popup-content">
-                <div id="buddy-list"></div>
-            </div>
-        </div>
         <!-- Interactive Google Map -->
         <gmp-map
             center="40.737788195850996,-74.17235423956"
@@ -49,10 +42,17 @@
                 title="Prudential Headquarters - Plaza Building"
             ></gmp-advanced-marker>
         </gmp-map>
+        <div id="search-bar-container">
+            <input type="text" id="search-bar" placeholder="Find carpool buddies nearby">
+            <div id="dropdown" class="dropdown-content"></div>
+            <div id="popup" class="popup-content">
+                <div id="buddy-list"></div>
+            </div>
+        </div>
     </div>
-    <div id="profile-picture-container">
+    <a href="{{ url_for('profile') }}" id="profile-picture-container">
         <img src="https://news.prudential.com/files/images/executive/high_res/LowreyCharles_Bio.jpg" alt="Profile Picture" id="profile-picture">
-    </div>
+    </a>
     <script src="{{ url_for('static', filename='css/landing.js') }}"></script>
 </body>
 </html>

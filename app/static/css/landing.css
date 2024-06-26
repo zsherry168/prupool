@@ -5,7 +5,7 @@ body, html {
 }
 
 #sidebar {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
@@ -32,13 +32,13 @@ body, html {
 }
 
 .sidebar-icon img {
-    width: 40px;  /* Adjusted size of the icons */
-    height: 40px; /* Adjusted size of the icons */
+    width: 40px;  
+    height: 40px; 
 }
 
 #map-container {
     position: relative;
-    height: 100%;
+    height: 100vh;
     width: calc(100% - 80px);
     margin-left: 80px;
 }
@@ -50,18 +50,20 @@ body, html {
 }
 
 #search-bar-container {
-    position: relative;
-    top: 25px;
-    left: 20px; 
+    position: absolute;
+    top: 10px;
+    left: 200px; 
     width: 300px;
+    z-index: 1001;
 }
 
 #search-bar {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 50px;
     font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .dropdown-item {
@@ -76,64 +78,78 @@ body, html {
 #profile-picture-container {
     position: absolute;
     top: 20px;
-    right: 20px;  /* Adjust position */
+    right: 20px;
+    z-index: 1001;
 }
 
 #profile-picture {
-    width: 50px;  /* Adjust size as needed */
-    height: 50px; /* Adjust size as needed */
-    border-radius: 50%; /* Make it circular */
-    border: 2px solid #fff; /* Optional: add a white border */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .popup-content {
     display: none;
-    position: absolute;
-    background-color: white;
-    width: 200px; /* Set a fixed width */
-    border: 1px solid #ccc;
-    top: 0; 
-    left: calc(100% + 10px); /* Position to the right of the dropdown with a 10px gap */
-    z-index: 2;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 12px;
-    border-radius: 4px;
+    left: calc(100% + 30px); 
+    margin: 0;
+    padding: 10px 15px;
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
 }
 
 #dropdown {
     position: absolute;
-    display: none; /* Initially hide the dropdown */
+    display: none; 
     background-color: white;
-    min-width: 160px;
+    width: 320px;
     border: 1px solid #ccc;
     border-top: none;
     max-height: 200px;
     overflow-y: auto;
     z-index: 1;
-    top: 100%; /* Position below the search bar */
-    left: 0; /* Align with the left edge of the search bar */
+    top: 100%; 
+    left: 0; 
+    border-radius: 10px;
 }
 
 #popup {
     position: absolute;
-    top: 40px;
+    top: 40px; 
     width: 300px; 
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); 
+    background-color: white; 
+    overflow: hidden; 
 }
 
 .popup-content h3 {
     margin: 0;
-    padding: 10px;
-    background-color: #f1f1f1;
-    border-bottom: 1px solid #ccc;
+    width: 100%; 
+    border: none; 
+    top: 0; 
+    left: 0; 
+    z-index: 2;
+    padding: 0; 
+    border-radius: 10px;
 }
 
-.popup-content #buddy-list {
-    padding: 10px;
+.popup-content h4 {
+    margin-top: 5px; 
+}
+
+#buddy-list {
+    padding: 1px 1px;
 }
 
 .buddy-item {
-    padding: 8px;
+    padding: 8px 0; 
     border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .buddy-item:last-child {
@@ -145,6 +161,5 @@ body, html {
 }
 
 .buddy-distance {
-    float: right;
     color: #666;
 }
