@@ -19,6 +19,10 @@ def home():
 @app.route('/chat')
 def chat():
     return render_template('chat.html')
+
+@app.route('/map')
+def map():
+    return render_template('map.html')
   
 @app.route('/google_signin')
 def google_signin():
