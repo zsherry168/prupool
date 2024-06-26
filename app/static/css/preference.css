@@ -1,0 +1,123 @@
+body {
+    font-family: Georgia, serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.header-stripe {
+    background-color: rgba(62, 194, 255, 0.62); /* 3EC3FF with 38% transparency */
+    height: 40px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.profile-pic {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.days, .fuel, .seats {
+    display: flex;
+    gap: 10px;
+}
+
+.day-btn, .fuel-btn, .seat-btn {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #e7f3ff;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for color change */
+}
+
+button.save-button {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #e7f3ff;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for color change */
+}
+
+button.save-button:hover {
+    background-color: #0056b3;
+}
+
+button.save-button:active {
+    background-color: #3391f5;
+}
+
+.day-btn:active, .fuel-btn:active, .seat-btn:active {
+    background-color: #0258b3; /* Color when button is clicked */
+}
+
+.day-btn:hover, .fuel-btn:hover, .seat-btn:hover {
+    background-color: #d0e9ff;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
