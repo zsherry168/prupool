@@ -48,7 +48,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    height: 50%;
+    height: 60%;
     padding-top: 5%;
 }
 
@@ -57,6 +57,7 @@
     margin-left: 1%;
     width: 45%;
     font-family: "Inter";
+    height: 135%;
 }
 
 .carpool-container h1 {
@@ -124,4 +125,16 @@
 
 .history-text p {
     margin-top: 0%;
+}
+
+.button {
+    border: none;
+    background-color: #007BC3;
+    color: white;
+    border-radius: 1%;
+    padding: 5% 10%;
+    margin-left: 25%;
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: medium;
 }
