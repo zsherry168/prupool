@@ -1,15 +1,15 @@
 const carpoolBuddies = {
     "Prudential Tower": [
-        { name: "Alice Johnson", distance: "0.5 miles" },
-        { name: "Bob Smith", distance: "0.7 miles" },
+        { name: "Lata N. Reddy", distance: "0.5 miles away" },
+        { name: "Ann Kappler", distance: "0.7 miles away" },
     ],
     "Prudential Insurance Company of America - Washington Building": [
-        { name: "Carol Davis", distance: "0.3 miles" },
-        { name: "David Brown", distance: "0.8 miles" },
+        { name: "Darshana Rao", distance: "0.3 miles away" },
+        { name: "RJ Sala", distance: "0.8 miles away" },
     ],
     "Prudential Headquarters - Plaza Building": [
-        { name: "Eva Wilson", distance: "0.4 miles" },
-        { name: "Frank Miller", distance: "0.6 miles" },
+        { name: "Stacy Goodman", distance: "0.4 miles away" },
+        { name: "Frank Miller", distance: "0.6 miles away" },
     ]
 };
 

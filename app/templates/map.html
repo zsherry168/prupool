@@ -44,6 +44,62 @@
         background: none;
         border: none
       }
+      
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 160px;
+        border: 1px solid #ccc;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 1;
+        top: 100%;
+        left: 0;
+      }
+
+      .dropdown-item {
+          padding: 10px;
+          cursor: pointer;
+      }
+
+      .dropdown-item:hover {
+          background-color: #f1f1f1;
+      }
+
+      .popup-content {
+          display: none;
+          position: absolute;
+          background-color: white;
+          width: 200px;
+          border: 1px solid #ccc;
+          top: 0;
+          left: calc(100% + 10px);
+          z-index: 2;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          padding: 12px;
+          border-radius: 4px;
+      }
+
+      .buddy-item {
+          padding: 8px;
+          border-bottom: 1px solid #eee;
+      }
+
+      .buddy-item:last-child {
+          border-bottom: none;
+      }
+
+      .buddy-name {
+          font-weight: bold;
+      }
+
+      .buddy-distance {
+          float: right;
+          color: #666;
+      }
+    </style>
+
   </style>
   </head>
   <body>
