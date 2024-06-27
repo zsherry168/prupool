@@ -5,6 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <style>
+        .custom-dropdown {
+            position: relative;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            top: 100%; /* Position below the input field */
+            left: 0;
+        }
+        .dropdown-content div {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+        }
+        .dropdown-content div:hover {
+            background-color: #f1f1f1;
+        }
+        .selected {
+            background-color: #d0e9ff;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -38,19 +66,39 @@
                 </select>
                 
                 <label for="days_going_to_work">Days Going to Work:</label>
-                <input type="text" id="days_going_to_work" name="days_going_to_work" value="{{ preferences.get('days_going_to_work', '') }}">
+                <div class="custom-dropdown">
+                    <input type="text" id="days_going_to_work" name="days_going_to_work" readonly value="{{ ', '.join(preferences.get('days_going_to_work', [])) }}">
+                    <div class="dropdown-content">
+                        <div data-value="monday">Monday</div>
+                        <div data-value="tuesday">Tuesday</div>
+                        <div data-value="wednesday">Wednesday</div>
+                        <div data-value="thursday">Thursday</div>
+                        <div data-value="friday">Friday</div>
+                    </div>
+                </div>
                 
                 <label for="driving_to">Driving To:</label>
-                <input type="text" id="driving_to" name="driving_to" value="{{ preferences.get('driving_to', '') }}">
+                <select id="driving_to" name="driving_to">
+                    <option value="office" {% if preferences.get('driving_to') == 'office' %}selected{% endif %}>Driving directly to office</option>
+                    <option value="train" {% if preferences.get('driving_to') == 'train' %}selected{% endif %}>Driving to train</option>
+                </select>
                 
                 <label for="type_of_car">Type of Car:</label>
-                <input type="text" id="type_of_car" name="type_of_car" value="{{ preferences.get('type_of_car', '') }}">
+                <select id="type_of_car" name="type_of_car">
+                    <option value="gas" {% if preferences.get('type_of_car') == 'gas' %}selected{% endif %}>Gas</option>
+                    <option value="electric" {% if preferences.get('type_of_car') == 'electric' %}selected{% endif %}>Electric</option>
+                    <option value="hybrid" {% if preferences.get('type_of_car') == 'hybrid' %}selected{% endif %}>Hybrid</option>
+                </select>
                 
                 <label for="seats_in_car">Seats in Car:</label>
                 <input type="number" id="seats_in_car" name="seats_in_car" value="{{ preferences.get('seats_in_car', '') }}">
                 
                 <label for="work_building">Work Building:</label>
-                <input type="text" id="work_building" name="work_building" value="{{ preferences.get('work_building', '') }}">
+                <select id="work_building" name="work_building">
+                    <option value="plaza" {% if preferences.get('work_building') == 'plaza' %}selected{% endif %}>Plaza</option>
+                    <option value="tower" {% if preferences.get('work_building') == 'tower' %}selected{% endif %}>Tower</option>
+                    <option value="wash" {% if preferences.get('work_building') == 'wash' %}selected{% endif %}>Wash</option>
+                </select>
                 
                 <label for="home_address">Home Address:</label>
                 <input type="text" id="home_address" name="home_address" value="{{ preferences.get('home_address', '') }}">
@@ -58,5 +106,48 @@
             </form>
         </section>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdown = document.querySelector('.custom-dropdown');
+            const dropdownContent = document.querySelector('.dropdown-content');
+            const input = document.getElementById('days_going_to_work');
+            const options = dropdownContent.querySelectorAll('div');
+
+            dropdown.addEventListener('click', function(event) {
+                event.stopPropagation();
+                dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+            });
+
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    if (option.classList.contains('selected')) {
+                        option.classList.remove('selected');
+                    } else {
+                        option.classList.add('selected');
+                    }
+                    updateInputValue();
+                    dropdownContent.style.display = 'none';
+                });
+            });
+
+            document.addEventListener('click', function() {
+                dropdownContent.style.display = 'none';
+            });
+
+            function updateInputValue() {
+                const selectedOptions = dropdownContent.querySelectorAll('.selected');
+                const values = Array.from(selectedOptions).map(option => option.getAttribute('data-value'));
+                input.value = values.join(', ');
+            }
+
+            // Initialize the dropdown with the current preferences
+            const currentPreferences = input.value.split(', ').map(item => item.trim());
+            options.forEach(option => {
+                if (currentPreferences.includes(option.getAttribute('data-value'))) {
+                    option.classList.add('selected');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

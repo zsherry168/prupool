@@ -127,17 +127,8 @@ def update_preferences():
         return redirect(url_for('signup'))
     
     user_id = session['user']['uid']
-    days_going_to_work = request.form.get('days_going_to_work')
+    days_going_to_work = request.form.get('days_going_to_work', '').split(', ')
     
-    if days_going_to_work:
-        try:
-            days_going_to_work = json.loads(days_going_to_work)
-        except json.JSONDecodeError:
-            flash('Invalid format for days going to work', 'danger')
-            return redirect(url_for('account'))
-    else:
-        days_going_to_work = []
-
     preferences = {
         'age': request.form.get('age'),
         'role': request.form.get('role'),
