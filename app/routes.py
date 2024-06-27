@@ -147,7 +147,15 @@ def update_preferences():
     
     try:
         # Update user preferences in Firebase
-        auth.set_custom_user_claims(user_id, {'preferences': preferences})
+        user = auth.get_user(user_id)
+        current_trips = user.custom_claims.get('trips', [])
+        completed_trips = user.custom_claims.get('completed_trips', [])
+        auth.set_custom_user_claims(user_id, {
+            'preferences': preferences,
+            'points': user.custom_claims.get('points', 0),
+            'trips': current_trips,
+            'completed_trips': completed_trips
+        })
         flash('Preferences updated successfully!', 'success')
     except Exception as e:
         flash(f'An error occurred: {e}', 'danger')
@@ -206,10 +214,11 @@ def profile():
     user_id = session['user']['uid']
     user = auth.get_user(user_id)
     preferences = user.custom_claims.get('preferences', {})
-    points = user.custom_claims.get('points', 0)
+    points = user.custom_claims.get('points', 0)  # Ensure points are retrieved
     trips = user.custom_claims.get('trips', [])
+    completed_trips = user.custom_claims.get('completed_trips', [])
     
-    return render_template('profile.html', user=session['user'], preferences=preferences, points=points, trips=trips)
+    return render_template('profile.html', user=session['user'], preferences=preferences, points=points, trips=trips, completed_trips=completed_trips)
 
 @app.route('/other-profile')
 def other_profile():
@@ -319,15 +328,32 @@ def save_trip():
         # Fetch the current user's custom claims
         user = auth.get_user(user_id)
         current_trips = user.custom_claims.get('trips', [])
+        current_points = user.custom_claims.get('points', 0)
+        car_type = user.custom_claims.get('preferences', {}).get('type_of_car', 'gas')
+        
+        # Calculate points for the trip
+        base_points = 20  # Base points for a trip
+        car_type_multiplier = {
+            'electric': 1.5,  # Electric cars get 50% more points
+            'hybrid': 1.2,  # Hybrid cars get 20% more points
+            'gas': 1.0  # Gas cars get the base points
+        }
+        points_for_trip = base_points * car_type_multiplier.get(car_type, 1.0)
+        
+        # Add a unique ID and points to the trip
+        trip_id = str(len(current_trips) + 1)
+        trip['id'] = trip_id
+        trip['points'] = points_for_trip  # Include points in the trip data
         
         # Add the new trip to the current trips
         current_trips.append(trip)
         
-        # Update the user's custom claims with the new trip data
+        # Update the user's custom claims with the new trip data and points
         auth.set_custom_user_claims(user_id, {
             'preferences': user.custom_claims.get('preferences', {}),
-            'points': user.custom_claims.get('points', 0),
-            'trips': current_trips
+            'points': current_points + points_for_trip,
+            'trips': current_trips,
+            'completed_trips': user.custom_claims.get('completed_trips', [])
         })
         
         flash('Trip booked successfully!', 'success')
@@ -366,3 +392,35 @@ def get_buddies():
             })
     
     return jsonify(buddies)
+
+@app.route('/complete_trip/<trip_id>', methods=['POST'])
+def complete_trip(trip_id):
+    if 'user' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    user_id = session['user']['uid']
+    try:
+        user = auth.get_user(user_id)
+        current_trips = user.custom_claims.get('trips', [])
+        completed_trips = user.custom_claims.get('completed_trips', [])
+
+        # Find the trip to complete
+        trip_to_complete = next((trip for trip in current_trips if trip['id'] == trip_id), None)
+        if not trip_to_complete:
+            return jsonify({'error': 'Trip not found'}), 404
+
+        # Remove the trip from current trips and add to completed trips
+        current_trips = [trip for trip in current_trips if trip['id'] != trip_id]
+        completed_trips.append(trip_to_complete)
+
+        # Update the user's custom claims
+        auth.set_custom_user_claims(user_id, {
+            'preferences': user.custom_claims.get('preferences', {}),
+            'points': user.custom_claims.get('points', 0),
+            'trips': current_trips,
+            'completed_trips': completed_trips
+        })
+
+        return jsonify({'success': 'Trip completed successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

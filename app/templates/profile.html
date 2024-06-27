@@ -64,8 +64,6 @@
                 <label for="type_of_car">Type of Car:</label>
                 <select id="type_of_car" name="type_of_car">
                     <option value="sedan" {% if preferences.get('type_of_car') == 'sedan' %}selected{% endif %}>Sedan</option>
-                    <option value="suv" {% if preferences.get('type_of_car') == 'suv' %}selected{% endif %}>SUV</option>
-                    <option value="truck" {% if preferences.get('type_of_car') == 'truck' %}selected{% endif %}>Truck</option>
                     <option value="hybrid" {% if preferences.get('type_of_car') == 'hybrid' %}selected{% endif %}>Hybrid</option>
                 </select>
                 
@@ -85,45 +83,50 @@
             </form>
         </div>
         <div class="column">
-            <h2>Carpool Info</h2>
-            <div class="carpool-info">
-                <img src="https://cdn2.iconfinder.com/data/icons/pittogrammi/142/10-512.png" />
-                <div class="carpool-text">
-                    <p>Start traveling from {{ preferences.get('home_address', 'N/A') }} by <b>7:30-8:00</b></p>
-                    <p>Leave {{ preferences.get('work_building', 'N/A') }} by <b>5:30-6:00</b></p>
-                </div>
-            </div>
-            <h2>Upcoming Trips</h2>
+            <h2>Upcoming Carpools</h2>
             <div class="trip-info">
                 {% for trip in trips %}
-                    <div class="trip-item">
+                    <div class="trip-item card">
                         <p>Building: <b>{{ trip.building }}</b></p>
                         <p>Leave Home Time: <b>{{ trip.leave_home_time }}</b></p>
                         <p>Leave Office Time: <b>{{ trip.leave_office_time }}</b></p>
                         <p>Carpool: <b>{{ ', '.join(trip.carpool) }}</b></p>
+                        <p>Points: <b>{{ trip.points }}</b></p>
+                        <button onclick="completeTrip('{{ trip.id }}')">Complete Trip</button>
                     </div>
                 {% endfor %}
             </div>
         </div>
         <div class="column">
             <h2>Ride History</h2>
-            <div class="history-info">
-                <img src="https://cdn2.iconfinder.com/data/icons/rounded-set-1/512/Car-512.png" />
-                <div class="history-text">
-                    <p>Time: <b>09/22/2024 8:00-9:00AM</b></p>
-                    <p>People: <b>Darshana Rao, Stacy Goodman</b></p>
-                    <p>Points earned: <b>4</b></p>
-                </div>
-            </div>
-            <div class="history-info">
-                <img src="https://cdn2.iconfinder.com/data/icons/rounded-set-1/512/Car-512.png" />
-                <div class="history-text">
-                    <p>Time: <b>09/22/2024 8:00-9:00AM</b></p>
-                    <p>People: <b>Darshana Rao, Stacy Goodman</b></p>
-                    <p>Points earned: <b>4</b></p>
-                </div>
+            <div class="trip-info">
+                {% for trip in completed_trips %}
+                    <div class="trip-item card">
+                        <p>Building: <b>{{ trip.building }}</b></p>
+                        <p>Leave Home Time: <b>{{ trip.leave_home_time }}</b></p>
+                        <p>Leave Office Time: <b>{{ trip.leave_office_time }}</b></p>
+                        <p>Carpool: <b>{{ ', '.join(trip.carpool) }}</b></p>
+                        <p>Points earned: <b>{{ trip.points }}</b></p>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
+    <script>
+        function completeTrip(tripId) {
+            fetch(`/complete_trip/${tripId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Failed to complete the trip.');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
