@@ -22,7 +22,7 @@
                 <li><i class="fa fa-home"></i> {{ preferences.get('home_address', 'N/A') }}</li>
                 <li><i class="fa fa-suitcase" aria-hidden="true"></i> {{ preferences.get('work_building', 'N/A') }}</li>
                 <li><i class="fa fa-car" aria-hidden="true"></i> {{ preferences.get('type_of_car', 'N/A') }}</li>
-                <li><i class="fa fa-star" aria-hidden="true"></i> {{ session['user']['points'] }} Points</li>
+                <li><i class="fa fa-star" aria-hidden="true"></i> {{ points }} Points</li>
             </ul>
         </div>
     </div>
@@ -57,14 +57,15 @@
                 
                 <label for="driving_to">Driving To:</label>
                 <select id="driving_to" name="driving_to">
-                    <option value="office" {% if preferences.get('driving_to') == 'office' %}selected{% endif %}>Driving directly to office</option>
-                    <option value="train" {% if preferences.get('driving_to') == 'train' %}selected{% endif %}>Driving to train</option>
+                    <option value="work" {% if preferences.get('driving_to') == 'work' %}selected{% endif %}>Work</option>
+                    <option value="home" {% if preferences.get('driving_to') == 'home' %}selected{% endif %}>Home</option>
                 </select>
                 
                 <label for="type_of_car">Type of Car:</label>
                 <select id="type_of_car" name="type_of_car">
-                    <option value="gas" {% if preferences.get('type_of_car') == 'gas' %}selected{% endif %}>Gas</option>
-                    <option value="electric" {% if preferences.get('type_of_car') == 'electric' %}selected{% endif %}>Electric</option>
+                    <option value="sedan" {% if preferences.get('type_of_car') == 'sedan' %}selected{% endif %}>Sedan</option>
+                    <option value="suv" {% if preferences.get('type_of_car') == 'suv' %}selected{% endif %}>SUV</option>
+                    <option value="truck" {% if preferences.get('type_of_car') == 'truck' %}selected{% endif %}>Truck</option>
                     <option value="hybrid" {% if preferences.get('type_of_car') == 'hybrid' %}selected{% endif %}>Hybrid</option>
                 </select>
                 
@@ -91,6 +92,17 @@
                     <p>Start traveling from {{ preferences.get('home_address', 'N/A') }} by <b>7:30-8:00</b></p>
                     <p>Leave {{ preferences.get('work_building', 'N/A') }} by <b>5:30-6:00</b></p>
                 </div>
+            </div>
+            <h2>Upcoming Trips</h2>
+            <div class="trip-info">
+                {% for trip in trips %}
+                    <div class="trip-item">
+                        <p>Building: <b>{{ trip.building }}</b></p>
+                        <p>Leave Home Time: <b>{{ trip.leave_home_time }}</b></p>
+                        <p>Leave Office Time: <b>{{ trip.leave_office_time }}</b></p>
+                        <p>Carpool: <b>{{ ', '.join(trip.carpool) }}</b></p>
+                    </div>
+                {% endfor %}
             </div>
         </div>
         <div class="column">

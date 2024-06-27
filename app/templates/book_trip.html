@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Trip</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/book_trip.css') }}">
+</head>
+<body>
+    <h1>Book a Trip to {{ building }}</h1>
+    <div id="buddy-list">
+        {% for buddy in buddies %}
+            <div class="buddy-item">
+                <span class="buddy-name">{{ buddy.name }}</span>
+                <span class="buddy-distance">{{ buddy.distance }}</span>
+                <button onclick="addToCarpool('{{ buddy.name }}')" {% if buddy.name in selected_buddies %}class="selected"{% endif %}>Add to Carpool</button>
+            </div>
+        {% endfor %}
+    </div>
+    <form action="{{ url_for('save_trip') }}" method="POST">
+        <input type="hidden" name="building" value="{{ building }}">
+        <input type="hidden" name="carpool" id="carpool" value="{{ ', '.join(selected_buddies or []) }}">
+        <label for="leave-home-time">Leave Home Time:</label>
+        <input type="time" id="leave-home-time" name="leave_home_time" required>
+        <label for="leave-office-time">Leave Office Time:</label>
+        <input type="time" id="leave-office-time" name="leave_office_time" required>
+        <button type="submit">Save Trip</button>
+    </form>
+    <div id="selected-buddies">
+        <h2>Selected Buddies</h2>
+        <ul id="carpool-list">
+            {% for buddy in selected_buddies or [] %}
+                <li>
+                    {{ buddy }}
+                    <button onclick="removeFromCarpool('{{ buddy }}')">x</button>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <script>
+        let carpool = JSON.parse('{{ selected_buddies|tojson }}');
+        function addToCarpool(name) {
+            if (!carpool.includes(name)) {
+                carpool.push(name);
+                document.getElementById('carpool').value = carpool.join(', ');
+                updateCarpoolList();
+            }
+        }
+        function removeFromCarpool(name) {
+            carpool = carpool.filter(buddy => buddy !== name);
+            document.getElementById('carpool').value = carpool.join(', ');
+            updateCarpoolList();
+        }
+        function updateCarpoolList() {
+            const carpoolList = document.getElementById('carpool-list');
+            carpoolList.innerHTML = '';
+            carpool.forEach(buddy => {
+                const li = document.createElement('li');
+                li.textContent = buddy;
+                const button = document.createElement('button');
+                button.textContent = 'x';
+                button.onclick = () => removeFromCarpool(buddy);
+                li.appendChild(button);
+                carpoolList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>

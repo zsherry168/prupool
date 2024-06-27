@@ -1,18 +1,3 @@
-const carpoolBuddies = {
-    "Prudential Tower": [
-        { name: "Lata N. Reddy", distance: "0.5 miles away" },
-        { name: "Ann Kappler", distance: "0.7 miles away" },
-    ],
-    "Washington Building": [
-        { name: "Darshana Rao", distance: "0.3 miles away" },
-        { name: "RJ Sala", distance: "0.8 miles away" },
-    ],
-    "Plaza Building": [
-        { name: "Stacy Goodman", distance: "0.4 miles away" },
-        { name: "Frank Miller", distance: "0.6 miles away" },
-    ]
-};
-
 document.addEventListener("DOMContentLoaded", function() {
     loadDropdownItems();
     
@@ -86,9 +71,18 @@ function toggleDropdown(event) {
   }
 
 function loadDropdownItems() {
-    const buildings = Object.keys(carpoolBuddies);
-    const dropdown = document.getElementById("dropdown");
-    dropdown.innerHTML = buildings.map(building => `<div class="dropdown-item" onclick="selectItem('${building}')">${building}</div>`).join('');
+    fetch('/get_buildings')
+        .then(response => response.json())
+        .then(buildings => {
+            const dropdown = document.getElementById("dropdown");
+            dropdown.innerHTML = buildings.map(building => 
+                `<div class="dropdown-item" 
+                      onmouseover="showPopup('${building}')" 
+                      onclick="selectItem('${building}')">
+                      ${building}
+                 </div>`
+            ).join('');
+        });
 }
 
 function showPopup(building) {
@@ -100,19 +94,29 @@ function showPopup(building) {
         return;
     }
 
-    const buddies = carpoolBuddies[building] || [];
-    const buddyHTML = buddies.map(buddy => 
-        `<div class="buddy-item">
-            <span class="buddy-name">${buddy.name}</span>
-            <span class="buddy-distance">${buddy.distance}</span>
-         </div>`
-    ).join('');
-    
-    buddyList.innerHTML = `
-        <h4>Potential buddies near ${building}:</h4>
-        ${buddyHTML}
-    `;
-    popup.style.display = "block";
+    fetch(`/get_buddies?building=${building}`)
+        .then(response => response.json())
+        .then(buddies => {
+            const currentUser = document.getElementById('profile-picture').alt; // Assuming alt contains the user's name
+            const buddyHTML = buddies
+                .filter(buddy => buddy.name !== currentUser)
+                .map(buddy => 
+                    `<div class="buddy-item">
+                        <span class="buddy-name" onclick="bookTripWithBuddy('${building}', '${buddy.name}')">${buddy.name}</span>
+                        <span class="buddy-distance">${buddy.distance}</span>
+                     </div>`
+                ).join('');
+            
+            buddyList.innerHTML = `
+                <h4>Potential buddies near ${building}:</h4>
+                ${buddyHTML}
+            `;
+            popup.style.display = "block";
+        });
+}
+
+function bookTripWithBuddy(building, buddyName) {
+    window.location.href = `/book_trip?building=${building}&buddy=${buddyName}`;
 }
 
 function selectItem(building) {
@@ -120,5 +124,5 @@ function selectItem(building) {
     if (searchBar) {
         searchBar.value = building;
     }
-    showPopup(building);
+    window.location.href = `/book_trip?building=${building}`;
 }

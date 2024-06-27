@@ -1,6 +1,6 @@
-from flask import render_template, request, redirect, url_for, flash, session
+from flask import render_template, request, redirect, url_for, flash, session, jsonify
 from app import app
-from firebase_admin import auth
+from firebase_admin import auth, firestore
 from google.oauth2 import id_token
 from google.auth.transport.requests import Request
 import google.auth.transport.requests
@@ -9,6 +9,8 @@ import os
 import requests
 import json
 from distance_calculator import calculate_distance
+from firebase import book_trip
+import logging
 
 GOOGLE_CLIENT_ID = app.config['GOOGLE_CLIENT_ID']
 GOOGLE_CLIENT_SECRET = app.config['GOOGLE_CLIENT_SECRET']
@@ -83,15 +85,15 @@ def google_callback():
                 'points': 0  # Initialize points to 0
             })
         
+        # Store user information in session
         session['user'] = {
+            'uid': user.uid,
             'name': user.display_name,
             'email': user.email,
-            'uid': user.uid,
-            'picture': id_info.get('picture'),  # Add profile picture
-            'points': user.custom_claims.get('points', 0)  # Add points to session
+            'picture': id_info.get('picture')
         }
         flash('Signed in successfully!', 'success')
-        return redirect(url_for('account'))
+        return redirect(url_for('profile'))
     except ValueError as e:
         flash(f'Invalid token: {e}', 'danger')
         return redirect(url_for('signup'))
@@ -199,12 +201,15 @@ def profile():
         flash('You need to sign in first', 'danger')
         return redirect(url_for('signup'))
     
+    logging.info(f"Session data: {session['user']}")
+    
     user_id = session['user']['uid']
     user = auth.get_user(user_id)
     preferences = user.custom_claims.get('preferences', {})
-    points = user.custom_claims.get('points', 0)  # Ensure points are retrieved
+    points = user.custom_claims.get('points', 0)
+    trips = user.custom_claims.get('trips', [])
     
-    return render_template('profile.html', user=session['user'], preferences=preferences, points=points)
+    return render_template('profile.html', user=session['user'], preferences=preferences, points=points, trips=trips)
 
 @app.route('/other-profile')
 def other_profile():
@@ -260,3 +265,104 @@ def test_users_page():
             })
     
     return render_template('test_users.html', test_users=test_users)
+
+@app.route('/book_trip')
+def book_trip():
+    if 'user' not in session:
+        flash('You need to sign in first', 'danger')
+        return redirect(url_for('signup'))
+    
+    building = request.args.get('building')
+    buddy = request.args.get('buddy')
+    user_id = session['user']['uid']
+    
+    if not building:
+        flash('Building is not specified', 'danger')
+        return redirect(url_for('home'))
+    
+    # Fetch carpool buddies from Firebase
+    buddies = []
+    for user in auth.list_users().iterate_all():
+        if user.uid == user_id:
+            continue  # Skip the current user
+        preferences = user.custom_claims.get('preferences', {})
+        if preferences.get('work_building') == building:
+            buddies.append({
+                'name': user.display_name,
+                'distance': 'N/A'  # You can calculate the distance if needed
+            })
+    
+    selected_buddies = [buddy] if buddy else []
+    
+    return render_template('book_trip.html', building=building, buddies=buddies, selected_buddies=selected_buddies)
+
+@app.route('/save_trip', methods=['POST'])
+def save_trip():
+    if 'user' not in session:
+        flash('You need to sign in first', 'danger')
+        return redirect(url_for('signup'))
+    
+    user_id = session['user']['uid']
+    building = request.form.get('building')
+    carpool = request.form.get('carpool').split(', ')
+    leave_home_time = request.form.get('leave_home_time')
+    leave_office_time = request.form.get('leave_office_time')
+    
+    trip = {
+        'building': building,
+        'carpool': carpool,
+        'leave_home_time': leave_home_time,
+        'leave_office_time': leave_office_time
+    }
+    
+    try:
+        # Fetch the current user's custom claims
+        user = auth.get_user(user_id)
+        current_trips = user.custom_claims.get('trips', [])
+        
+        # Add the new trip to the current trips
+        current_trips.append(trip)
+        
+        # Update the user's custom claims with the new trip data
+        auth.set_custom_user_claims(user_id, {
+            'preferences': user.custom_claims.get('preferences', {}),
+            'points': user.custom_claims.get('points', 0),
+            'trips': current_trips
+        })
+        
+        flash('Trip booked successfully!', 'success')
+    except Exception as e:
+        flash(f'An error occurred: {e}', 'danger')
+    
+    return redirect(url_for('profile'))
+
+@app.route('/get_buildings')
+def get_buildings():
+    buildings = set()
+    for user in auth.list_users().iterate_all():
+        preferences = user.custom_claims.get('preferences', {})
+        building = preferences.get('work_building')
+        if building:
+            buildings.add(building)
+    return jsonify(list(buildings))
+
+@app.route('/get_buddies')
+def get_buddies():
+    if 'user' not in session:
+        return jsonify([])  # Return an empty list if the user is not logged in
+    
+    building = request.args.get('building')
+    user_id = session['user']['uid']
+    
+    buddies = []
+    for user in auth.list_users().iterate_all():
+        if user.uid == user_id:
+            continue  # Skip the current user
+        preferences = user.custom_claims.get('preferences', {})
+        if preferences.get('work_building') == building:
+            buddies.append({
+                'name': user.display_name,
+                'distance': 'N/A'  # You can calculate the distance if needed
+            })
+    
+    return jsonify(buddies)
