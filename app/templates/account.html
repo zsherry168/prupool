@@ -5,37 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    <style>
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-        .dropdown-content li {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            cursor: pointer;
-        }
-        .dropdown-content li:hover {
-            background-color: #f1f1f1;
-        }
-        .dropdown-content .selected {
-            background-color: blue;
-            color: white;
-        }
-        .dropdown.open .dropdown-content {
-            display: block;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -69,89 +38,25 @@
                 </select>
                 
                 <label for="days_going_to_work">Days Going to Work:</label>
-                <div class="dropdown" id="days_dropdown">
-                    <input type="text" id="days_display" readonly>
-                    <ul id="days_going_to_work" class="dropdown-content">
-                        <li data-value="monday" {% if 'monday' in preferences.get('days_going_to_work', []) %}class="selected"{% endif %}>Monday</li>
-                        <li data-value="tuesday" {% if 'tuesday' in preferences.get('days_going_to_work', []) %}class="selected"{% endif %}>Tuesday</li>
-                        <li data-value="wednesday" {% if 'wednesday' in preferences.get('days_going_to_work', []) %}class="selected"{% endif %}>Wednesday</li>
-                        <li data-value="thursday" {% if 'thursday' in preferences.get('days_going_to_work', []) %}class="selected"{% endif %}>Thursday</li>
-                        <li data-value="friday" {% if 'friday' in preferences.get('days_going_to_work', []) %}class="selected"{% endif %}>Friday</li>
-                    </ul>
-                </div>
-                <input type="hidden" name="days_going_to_work" id="days_going_to_work_input" value="{{ preferences.get('days_going_to_work', []) }}">
+                <input type="text" id="days_going_to_work" name="days_going_to_work" value="{{ preferences.get('days_going_to_work', '') }}">
                 
                 <label for="driving_to">Driving To:</label>
-                <select id="driving_to" name="driving_to">
-                    <option value="prudential" {% if preferences.get('driving_to') == 'prudential' %}selected{% endif %}>Directly to Prudential</option>
-                    <option value="train" {% if preferences.get('driving_to') == 'train' %}selected{% endif %}>Driving to the Train</option>
-                </select>
+                <input type="text" id="driving_to" name="driving_to" value="{{ preferences.get('driving_to', '') }}">
                 
                 <label for="type_of_car">Type of Car:</label>
-                <select id="type_of_car" name="type_of_car">
-                    <option value="hybrid" {% if preferences.get('type_of_car') == 'hybrid' %}selected{% endif %}>Hybrid</option>
-                    <option value="gas" {% if preferences.get('type_of_car') == 'gas' %}selected{% endif %}>Gas</option>
-                    <option value="electric" {% if preferences.get('type_of_car') == 'electric' %}selected{% endif %}>Electric</option>
-                </select>
+                <input type="text" id="type_of_car" name="type_of_car" value="{{ preferences.get('type_of_car', '') }}">
                 
                 <label for="seats_in_car">Seats in Car:</label>
-                <input type="number" id="seats_in_car" name="seats_in_car" min="1" max="10" value="{{ preferences.get('seats_in_car', '') }}">
+                <input type="number" id="seats_in_car" name="seats_in_car" value="{{ preferences.get('seats_in_car', '') }}">
                 
                 <label for="work_building">Work Building:</label>
-                <select id="work_building" name="work_building">
-                    <option value="tower" {% if preferences.get('work_building') == 'tower' %}selected{% endif %}>Tower</option>
-                    <option value="wash" {% if preferences.get('work_building') == 'wash' %}selected{% endif %}>Wash</option>
-                    <option value="plaza" {% if preferences.get('work_building') == 'plaza' %}selected{% endif %}>Plaza</option>
-                </select>
-
+                <input type="text" id="work_building" name="work_building" value="{{ preferences.get('work_building', '') }}">
+                
                 <label for="home_address">Home Address:</label>
                 <input type="text" id="home_address" name="home_address" value="{{ preferences.get('home_address', '') }}">
-                
                 <button type="submit">Update Preferences</button>
             </form>
-            <a href="{{ url_for('distance') }}">Go to Calculate Distance</a>
         </section>
     </main>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const daysDropdown = document.getElementById('days_dropdown');
-            const daysList = document.getElementById('days_going_to_work');
-            const daysInput = document.getElementById('days_going_to_work_input');
-            const daysDisplay = document.getElementById('days_display');
-            
-            function updateDaysDisplay() {
-                const selectedDays = Array.from(daysList.querySelectorAll('.selected')).map(li => li.textContent);
-                daysDisplay.value = selectedDays.join(', ');
-            }
-            
-            daysDisplay.addEventListener('click', function(event) {
-                event.stopPropagation();
-                daysDropdown.classList.toggle('open');
-            });
-            
-            daysList.addEventListener('click', function(event) {
-                event.stopPropagation();
-                if (event.target.tagName === 'LI') {
-                    event.target.classList.toggle('selected');
-                    updateDaysDisplay();
-                    updateDaysInput();
-                }
-            });
-            
-            function updateDaysInput() {
-                const selectedDays = Array.from(daysList.querySelectorAll('.selected')).map(li => li.getAttribute('data-value'));
-                daysInput.value = JSON.stringify(selectedDays);
-            }
-            
-            document.addEventListener('click', function(event) {
-                if (!daysDropdown.contains(event.target) && event.target !== daysDisplay) {
-                    daysDropdown.classList.remove('open');
-                }
-            });
-            
-            // Initialize display
-            updateDaysDisplay();
-        });
-    </script>
 </body>
 </html>

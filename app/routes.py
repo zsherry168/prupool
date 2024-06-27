@@ -105,7 +105,7 @@ def account():
     
     user_id = session['user']['uid']
     user = auth.get_user(user_id)
-    preferences = user.custom_claims.get('preferences', {})
+    preferences = user.custom_claims.get('preferences', {}) or {}
     points = user.custom_claims.get('points', 0)  # Ensure points are retrieved
     
     return render_template('account.html', user=session['user'], preferences=preferences, points=points)
@@ -151,14 +151,8 @@ def update_preferences():
     }
     
     try:
-        # Get current custom claims
-        user = auth.get_user(user_id)
-        custom_claims = user.custom_claims or {}
-        
-        # Update preferences but keep points unchanged
-        custom_claims['preferences'] = {**custom_claims.get('preferences', {}), **preferences}
-        
-        auth.set_custom_user_claims(user_id, custom_claims)
+        # Update user preferences in Firebase
+        auth.set_custom_user_claims(user_id, {'preferences': preferences})
         flash('Preferences updated successfully!', 'success')
     except Exception as e:
         flash(f'An error occurred: {e}', 'danger')
