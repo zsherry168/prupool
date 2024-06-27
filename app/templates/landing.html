@@ -27,7 +27,6 @@
             center="40.737788195850996,-74.17235423956"
             zoom="16"
             map-id="DEMO_MAP_ID"
-            style="height: 1000px"
         >
         <gmp-advanced-marker
                 position="40.73935,-74.17097"
@@ -50,9 +49,17 @@
             </div>
         </div>
     </div>
-    <a href="{{ url_for('profile') }}" id="profile-picture-container">
-        <img src="https://news.prudential.com/files/images/executive/high_res/LowreyCharles_Bio.jpg" alt="Profile Picture" id="profile-picture">
-    </a>
+    <div id="top-bar">
+        <div id="profile-picture-container">
+            {% if 'user' in session %}
+                <a href="{{ url_for('profile') }}">
+                    <img src="{{ session['user']['picture'] }}" alt="Profile Picture" id="profile-picture">
+                </a>
+            {% else %}
+                <a href="{{ url_for('google_signin') }}" class="sign-in-button">Sign In</a>
+            {% endif %}
+        </div>
+    </div>
     <script src="{{ url_for('static', filename='css/landing.js') }}"></script>
 </body>
 </html>

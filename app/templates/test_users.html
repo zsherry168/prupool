@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Users</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile1.css') }}">
+</head>
+<body>
+    <div class="container-box">
+        <div class="column">
+            <h2>Add Test User</h2>
+            <form action="{{ url_for('test_users_page') }}" method="POST">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="home_address">Home Address:</label>
+                <input type="text" id="home_address" name="home_address" required>
+                
+                <label for="work_building">Work Building:</label>
+                <select id="work_building" name="work_building">
+                    <option value="plaza">Plaza</option>
+                    <option value="tower">Tower</option>
+                    <option value="wash">Wash</option>
+                </select>
+                
+                <label for="type_of_car">Type of Car:</label>
+                <select id="type_of_car" name="type_of_car">
+                    <option value="gas">Gas</option>
+                    <option value="electric">Electric</option>
+                    <option value="hybrid">Hybrid</option>
+                </select>
+                
+                <label for="seats_in_car">Seats in Car:</label>
+                <input type="number" id="seats_in_car" name="seats_in_car" required>
+                
+                <label for="points">Points:</label>
+                <input type="number" id="points" name="points" required>
+                
+                <button type="submit">Add Test User</button>
+            </form>
+        </div>
+        <div class="column">
+            <h2>Test Users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Home Address</th>
+                        <th>Work Building</th>
+                        <th>Type of Car</th>
+                        <th>Seats in Car</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in test_users %}
+                    <tr>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.home_address }}</td>
+                        <td>{{ user.work_building }}</td>
+                        <td>{{ user.type_of_car }}</td>
+                        <td>{{ user.seats_in_car }}</td>
+                        <td>{{ user.points }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

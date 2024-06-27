@@ -1,135 +1,201 @@
-/* body {
-    font-family: 'Inter';
-} */
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.breadcrumb {
+    background: #f9f9f9;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: #007BC3;
+    font-weight: bold;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
 
 .header {
     background: #D3EFFC;
     display: flex;
     flex-direction: row;
-    height: 25%;
-  }
+    align-items: center;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
 .profile-image img {
     border-radius: 50%;
-    height: 95%;
-    padding-left: 5%;
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+    margin-right: 20px;
 }
 
 .header-text {
-    align-self: center;
-    padding-left: 2%;
-    width: 90%;
-    font-family: "Inter";
+    flex: 1;
 }
 
 .header-text h1 {
-    margin-bottom: 1%;
-    margin-top: 1%;
-    padding-left: 2%;
+    margin: 0;
+    font-size: 24px;
+    color: #333;
 }
 
 .header-text p {
-    margin-top: 1%;
-    font-weight: 500;
-    padding-left: 2%;
+    margin: 5px 0;
+    color: #666;
 }
 
 .header-text ul {
-    width: 60%;
     list-style: none;
-    display: flex;    
-    justify-content: space-around;
     padding: 0;
-    margin: 0;
+    margin: 10px 0 0;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-/* .header-text li {
-} */
+.header-text li {
+    margin-right: 20px;
+    color: #666;
+}
 
 .container-box {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    height: 50%;
-    padding-top: 5%;
+    justify-content: space-between;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
-.carpool-container {
-    background: #D3EFFC;
-    margin-left: 1%;
-    width: 45%;
-    font-family: "Inter";
-}
-
-.carpool-container h1 {
-    margin-left: 5%;
-    padding-top: 1%;
-    padding-bottom: 1%;
-}
-
-.carpool-info {
-    height: 25%;
+.column {
+    flex: 1;
+    margin: 0 10px;
     display: flex;
-    flex-direction: row;
-    padding-bottom: 5%;
+    flex-direction: column;
+    justify-content: flex-start; /* Align items from top to bottom */
 }
 
-.carpool-info img {
-    height: 95%;
-    padding-left: 4%;
-    padding-top: 0%;
+.column h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-.carpool-text {
-    padding-left: 2%;
-    align-self: center;
+.column form, .carpool-info, .history-info {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.carpool-text p {
-    margin-top: 0.5%;
+.column .carpool-info, .column .history-info {
+    margin-bottom: 20px; /* Ensure consistent spacing */
 }
 
-.history-container {
-    background: #D3EFFC;
-    margin-left: 1%;
-    width: 45%;
-    height: 150%;
-    font-family: "Inter";
+.column label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
 }
 
-.history-container h1 {
-    margin-left: 5%;
-    padding-top: 1%;
-    padding-bottom: 1%;
+.column input, .column select {
+    width: 100%; /* Ensure consistency */
+    max-width: 250px; /* Reduce max-width to make fields smaller */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-.history-info {
-    height: 30%;
+/* Add specific styles for the fields that need to be smaller */
+.column input#age,
+.column input#role,
+.column input#days_going_to_work,
+.column input#seats_in_car,
+.column input#home_address {
+    max-width: 200px; /* Adjust the width as needed */
+}
+
+.column form {
+    flex: 1;
     display: flex;
-    flex-direction: row;
-    padding-bottom: 10%;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure the button is at the bottom */
 }
 
-.history-info img {
-    height: 125%;
-    padding-left: 4%;
-    padding-top: 0;
-    align-self: center;
+.column form button {
+    align-self: center; /* Center the button horizontally */
+    width: 100%;
+    max-width: 250px; /* Ensure consistency */
+    padding: 10px;
+    background: #007BC3;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px; /* Ensure consistent spacing */
 }
 
-.history-text {
-    padding-left: 2%;
-    align-self: center;
-    margin-top: 1%;
-    padding-right: 2%;
+.column form button:hover {
+    background: #005f8a;
 }
 
-.history-text p {
-    margin-top: 0%;
+.carpool-info, .history-info {
+    display: flex;
+    align-items: center;
 }
-/* .carpoo */
-/* .header-text ul li {
-    margin-right: 50%;
-} */
+
+.carpool-info img, .history-info img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.carpool-text, .history-text {
+    flex: 1;
+}
+
+.custom-dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    top: 100%;
+    left: 0;
+}
+
+.dropdown-content div {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+.dropdown-content div:hover {
+    background-color: #f1f1f1;
+}
+
+.selected {
+    background-color: #d0e9ff;
+}

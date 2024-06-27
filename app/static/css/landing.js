@@ -35,6 +35,46 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
     });
+
+    const dropdown = document.querySelector('.custom-dropdown');
+    const dropdownContent = document.querySelector('.dropdown-content');
+    const input = document.getElementById('days_going_to_work');
+    const options = dropdownContent.querySelectorAll('div');
+
+    dropdown.addEventListener('click', function(event) {
+        event.stopPropagation();
+        dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+    });
+
+    options.forEach(option => {
+        option.addEventListener('click', function() {
+            if (option.classList.contains('selected')) {
+                option.classList.remove('selected');
+            } else {
+                option.classList.add('selected');
+            }
+            updateInputValue();
+            dropdownContent.style.display = 'none';
+        });
+    });
+
+    document.addEventListener('click', function() {
+        dropdownContent.style.display = 'none';
+    });
+
+    function updateInputValue() {
+        const selectedOptions = dropdownContent.querySelectorAll('.selected');
+        const values = Array.from(selectedOptions).map(option => option.getAttribute('data-value'));
+        input.value = values.join(', ');
+    }
+
+    // Initialize the dropdown with the current preferences
+    const currentPreferences = input.value.split(', ').map(item => item.trim());
+    options.forEach(option => {
+        if (currentPreferences.includes(option.getAttribute('data-value'))) {
+            option.classList.add('selected');
+        }
+    });
 });
 
 function toggleDropdown(event) {
