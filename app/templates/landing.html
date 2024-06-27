@@ -20,6 +20,9 @@
         <div class="sidebar-icon" id="leaderboard-icon">
             <img src="https://www.svgrepo.com/show/487506/leaderboard.svg" alt="Leaderboard">
         </div>
+        <a href="{{ url_for('profile') }}" class="sidebar-icon" id="profile-icon">
+            <img src="https://www.svgrepo.com/show/157810/profile.svg" alt="Profile">
+        </a>
     </div>
     <div id="map-container">
         <!-- Interactive Google Map -->
@@ -27,7 +30,6 @@
             center="40.737788195850996,-74.17235423956"
             zoom="16"
             map-id="DEMO_MAP_ID"
-            style="height: 1000px"
         >
         <gmp-advanced-marker
                 position="40.73935,-74.17097"

@@ -43,10 +43,9 @@ body, html {
     margin-left: 80px;
 }
 
-#map-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+gmp-map {
+    height: 100vh; /* Use viewport height */
+    width: 100%; /* Ensure it takes the full width of its container */
 }
 
 #search-bar-container {
