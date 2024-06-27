@@ -13,6 +13,8 @@ from distance_calculator import calculate_distance
 GOOGLE_CLIENT_ID = app.config['GOOGLE_CLIENT_ID']
 GOOGLE_CLIENT_SECRET = app.config['GOOGLE_CLIENT_SECRET']
 
+test_users = []
+
 @app.route('/')
 def home():
     return render_template('landing.html')
@@ -207,3 +209,54 @@ def profile():
 @app.route('/other-profile')
 def other_profile():
     return render_template('other-profile.html')
+
+@app.route('/test-users', methods=['GET', 'POST'])
+def test_users_page():
+    if request.method == 'POST':
+        new_user = {
+            'name': request.form['name'],
+            'email': request.form['email'],
+            'home_address': request.form['home_address'],
+            'work_building': request.form['work_building'],
+            'type_of_car': request.form['type_of_car'],
+            'seats_in_car': request.form['seats_in_car'],
+            'points': request.form['points']
+        }
+        
+        # Create a new user in Firebase
+        try:
+            user = auth.create_user(
+                email=new_user['email'],
+                display_name=new_user['name']
+            )
+            # Set custom claims for the user
+            auth.set_custom_user_claims(user.uid, {
+                'preferences': {
+                    'home_address': new_user['home_address'],
+                    'work_building': new_user['work_building'],
+                    'type_of_car': new_user['type_of_car'],
+                    'seats_in_car': new_user['seats_in_car']
+                },
+                'points': new_user['points']
+            })
+            flash('Test user created successfully!', 'success')
+        except Exception as e:
+            flash(f'An error occurred: {e}', 'danger')
+        
+        return redirect(url_for('test_users_page'))
+    
+    # Fetch all users with custom claims
+    test_users = []
+    for user in auth.list_users().iterate_all():
+        if user.custom_claims:
+            test_users.append({
+                'name': user.display_name,
+                'email': user.email,
+                'home_address': user.custom_claims.get('preferences', {}).get('home_address', 'N/A'),
+                'work_building': user.custom_claims.get('preferences', {}).get('work_building', 'N/A'),
+                'type_of_car': user.custom_claims.get('preferences', {}).get('type_of_car', 'N/A'),
+                'seats_in_car': user.custom_claims.get('preferences', {}).get('seats_in_car', 'N/A'),
+                'points': user.custom_claims.get('points', 'N/A')
+            })
+    
+    return render_template('test_users.html', test_users=test_users)
