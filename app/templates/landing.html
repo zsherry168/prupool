@@ -20,9 +20,6 @@
         <div class="sidebar-icon" id="leaderboard-icon">
             <img src="https://www.svgrepo.com/show/487506/leaderboard.svg" alt="Leaderboard">
         </div>
-        <a href="{{ url_for('profile') }}" class="sidebar-icon" id="profile-icon">
-            <img src="https://www.svgrepo.com/show/157810/profile.svg" alt="Profile">
-        </a>
     </div>
     <div id="map-container">
         <!-- Interactive Google Map -->
@@ -52,9 +49,17 @@
             </div>
         </div>
     </div>
-    <a href="{{ url_for('profile') }}" id="profile-picture-container">
-        <img src="https://news.prudential.com/files/images/executive/high_res/LowreyCharles_Bio.jpg" alt="Profile Picture" id="profile-picture">
-    </a>
+    <div id="top-bar">
+        <div id="profile-picture-container">
+            {% if 'user' in session %}
+                <a href="{{ url_for('profile') }}">
+                    <img src="{{ session['user']['picture'] }}" alt="Profile Picture" id="profile-picture">
+                </a>
+            {% else %}
+                <a href="{{ url_for('google_signin') }}" class="sign-in-button">Sign In</a>
+            {% endif %}
+        </div>
+    </div>
     <script src="{{ url_for('static', filename='css/landing.js') }}"></script>
 </body>
 </html>

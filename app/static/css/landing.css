@@ -65,6 +65,40 @@ gmp-map {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+#top-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    z-index: 1002;
+}
+
+#profile-picture-container {
+    display: flex;
+    align-items: center;
+}
+
+#profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.sign-in-button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.sign-in-button:hover {
+    background-color: #0056b3;
+}
+
 .dropdown-item {
     padding: 10px;
     cursor: pointer;

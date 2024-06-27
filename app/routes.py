@@ -148,7 +148,7 @@ def update_preferences():
     except Exception as e:
         flash(f'An error occurred: {e}', 'danger')
     
-    return redirect(url_for('account'))
+    return redirect(url_for('profile'))
 
 @app.route('/distance')
 def distance():
@@ -193,7 +193,16 @@ def calculate_distance_route():
 
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    if 'user' not in session:
+        flash('You need to sign in first', 'danger')
+        return redirect(url_for('signup'))
+    
+    user_id = session['user']['uid']
+    user = auth.get_user(user_id)
+    preferences = user.custom_claims.get('preferences', {})
+    points = user.custom_claims.get('points', 0)  # Ensure points are retrieved
+    
+    return render_template('profile.html', user=session['user'], preferences=preferences, points=points)
 
 @app.route('/other-profile')
 def other_profile():

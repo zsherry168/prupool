@@ -32,6 +32,17 @@
         .selected {
             background-color: #d0e9ff;
         }
+        .profile-picture {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .top-right {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -39,6 +50,15 @@
         <h1>Account Details</h1>
         <div class="breadcrumb">
             <a href="{{ url_for('home') }}">Home</a> > Account
+        </div>
+        <div class="top-right">
+            {% if 'user' in session %}
+                <a href="{{ url_for('profile') }}">
+                    <img src="{{ session['user']['picture'] }}" alt="Profile Picture" class="profile-picture">
+                </a>
+            {% else %}
+                <a href="{{ url_for('google_signin') }}" class="sign-in-button">Sign In</a>
+            {% endif %}
         </div>
     </header>
     <main>
