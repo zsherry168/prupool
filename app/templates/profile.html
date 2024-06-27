@@ -63,7 +63,8 @@
                 
                 <label for="type_of_car">Type of Car:</label>
                 <select id="type_of_car" name="type_of_car">
-                    <option value="sedan" {% if preferences.get('type_of_car') == 'sedan' %}selected{% endif %}>Sedan</option>
+                    <option value="electric" {% if preferences.get('type_of_car') == 'electric' %}selected{% endif %}>Electric</option>
+                    <option value="gas" {% if preferences.get('type_of_car') == 'gas' %}selected{% endif %}>Gas</option>
                     <option value="hybrid" {% if preferences.get('type_of_car') == 'hybrid' %}selected{% endif %}>Hybrid</option>
                 </select>
                 
